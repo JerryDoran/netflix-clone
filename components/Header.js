@@ -1,9 +1,11 @@
 import { BellIcon, SearchIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { useLogout } from '../hooks/useLogout';
 
 function Header() {
   const [isScroll, setIsScroll] = useState(false);
+  const { logout, isPending, error } = useLogout();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,6 +22,10 @@ function Header() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  if (isPending) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <header className={`${isScroll && 'bg-[#141414]'}`}>
@@ -45,13 +51,14 @@ function Header() {
         <SearchIcon className='hidden sm:inline h-6 w-6' />
         <p className='hidden lg:inline'>Kids</p>
         <BellIcon className='h-6 w-6' />
-        <Link href='/account'>
-          <img
-            src='https://rb.gy/g1pwyx'
-            alt=''
-            className='cursor-pointer rounded'
-          />
-        </Link>
+        {/* <Link href='/account'> */}
+        <img
+          onClick={logout}
+          src='https://rb.gy/g1pwyx'
+          alt=''
+          className='cursor-pointer rounded'
+        />
+        {/* </Link> */}
       </div>
     </header>
   );
