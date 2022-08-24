@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase.config';
 import { useRouter } from 'next/router';
+import { useAuthContext } from './useAuthContext';
 
 export const useSignup = () => {
+  const { dispatch } = useAuthContext();
   const [error, setError] = useState(null);
   const [signupPending, setSignupPending] = useState(false);
   const [isCanceled, setIsCanceled] = useState(false);
@@ -14,13 +16,17 @@ export const useSignup = () => {
     setSignupPending(true);
 
     try {
-      const res = await createUserWithEmailAndPassword(auth, email, password);
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
-      console.log(email, password);
-
-      if (!res) {
+      if (!user) {
         throw new Error('Could not complete signup');
       }
+
+      dispatch({ type: 'LOGIN', payload: user });
 
       // add display name to user
       // await res.user.updateProfile({ displayName: displayName });

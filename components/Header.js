@@ -1,4 +1,4 @@
-import { BellIcon, SearchIcon } from '@heroicons/react/solid';
+import { BellIcon, SearchIcon, LogoutIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useLogout } from '../hooks/useLogout';
@@ -48,17 +48,18 @@ function Header() {
 
       {/* right section */}
       <div className='flex items-center space-x-4 text-sm font-light'>
-        <SearchIcon className='hidden sm:inline h-6 w-6' />
+        <SearchIcon className='hidden sm:inline h-6 w-6 cursor-pointer' />
         <p className='hidden lg:inline'>Kids</p>
-        <BellIcon className='h-6 w-6' />
-        {/* <Link href='/account'> */}
-        <img
-          onClick={logout}
-          src='https://rb.gy/g1pwyx'
-          alt=''
-          className='cursor-pointer rounded'
-        />
-        {/* </Link> */}
+        <BellIcon className='h-6 w-6 cursor-pointer' />
+        <Link href='/account'>
+          <img
+            // onClick={logout}
+            src='https://rb.gy/g1pwyx'
+            alt=''
+            className='cursor-pointer rounded'
+          />
+        </Link>
+        <LogoutIcon className='h-6 w-6 cursor-pointer' onClick={logout} />
       </div>
     </header>
   );

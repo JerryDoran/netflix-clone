@@ -1,8 +1,14 @@
 import { createContext, useReducer, useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase.config';
+import { useRouter } from 'next/router';
 
 export const AuthContext = createContext();
+
+const initialState = {
+  user: null,
+  authIsReady: false,
+};
 
 export const authReducer = (state, action) => {
   switch (action.type) {
@@ -18,14 +24,16 @@ export const authReducer = (state, action) => {
 };
 
 export const AuthContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(authReducer, {
-    user: null,
-    authIsReady: false,
-  });
+  const [state, dispatch] = useReducer(authReducer, initialState);
+
+  const router = useRouter();
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
       dispatch({ type: 'AUTH_READY', payload: user });
+      // if (!user) {
+      //   router.push('/login');
+      // }
       unsub();
     });
   }, []);

@@ -52,7 +52,7 @@ export default function Modal() {
     setShowModal(false);
   };
 
-  console.log(trailer);
+  // console.log(trailer);
 
   return (
     <MuiModal
