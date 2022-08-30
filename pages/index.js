@@ -11,6 +11,8 @@ import { getProducts } from '@stripe/firestore-stripe-payments';
 import payments from '../lib/stripe';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { useSubscription } from '../hooks/useSubscription';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 function Home({
   netflixOriginals,
@@ -23,11 +25,14 @@ function Home({
   trendingNow,
   products,
 }) {
-  // console.log(products);
   const { user } = useAuthContext();
   const showModal = useRecoilValue(modalState);
   const subscription = useSubscription(user);
-  // const subscription = false;
+  const router = useRouter();
+
+  // if (!user) {
+  //   router.push('/login');
+  // }
 
   if (subscription === null) {
     return null;

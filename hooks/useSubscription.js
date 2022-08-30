@@ -20,11 +20,9 @@ export const useSubscription = (user) => {
             subscription.status === 'trialing'
         )[0]
       );
-      console.log(subscription);
+      // console.log(subscription);
     });
   }, [user]);
-
-  // console.log(subscription);
 
   return subscription;
 };
