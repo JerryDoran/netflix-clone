@@ -5,14 +5,14 @@ import Modal from '../components/Modal';
 import Plans from '../components/Plans';
 import Row from '../components/Row';
 import requests from '../utils/requests';
+import { useList } from '../hooks/useList';
 import { useRecoilValue } from 'recoil';
-import { modalState } from '../atoms/modalAtom';
+import { modalState, movieState } from '../atoms/modalAtom';
 import { getProducts } from '@stripe/firestore-stripe-payments';
 import payments from '../lib/stripe';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { useSubscription } from '../hooks/useSubscription';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 
 function Home({
   netflixOriginals,
@@ -27,7 +27,9 @@ function Home({
 }) {
   const { user } = useAuthContext();
   const showModal = useRecoilValue(modalState);
+  const movie = useRecoilValue(movieState);
   const subscription = useSubscription(user);
+  const list = useList(user?.uid);
   const router = useRouter();
 
   // if (!user) {
@@ -63,6 +65,7 @@ function Home({
           <Row title='Action Thrillers' movies={actionMovies} />
 
           {/* My list Component*/}
+          {list.length > 0 && <Row title='My List' movies={list} />}
 
           <Row title='Comedies' movies={comedyMovies} />
           <Row title='Scary Movies' movies={horrorMovies} />
